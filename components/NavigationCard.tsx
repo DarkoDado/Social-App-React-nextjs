@@ -1,11 +1,15 @@
 import Card from './Card'
 
 export const NavigationCard = () => {
+  const activeElement =
+    'flex gap-2 py-3 bg-socialBlue text-white -mx-10 px-10 rounded-md shadow-md shadow-gray-300'
+  const noneActiveElement =
+    'flex gap-2 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 -mx-4 px-4 rounded-md transition-all hover:scale-110 hover:shadow-md shadow-gray-300'
   return (
     <Card>
       <div className="px-4 py-2">
         <h2 className="text-gray-300 font-bold mb-3">Navigation</h2>
-        <a href="" className="flex gap-2 py-3">
+        <a href="" className={activeElement}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,7 +26,7 @@ export const NavigationCard = () => {
           </svg>
           Home
         </a>
-        <a href="" className="flex gap-2 py-3">
+        <a href="" className={noneActiveElement}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,7 +43,7 @@ export const NavigationCard = () => {
           </svg>
           Friends
         </a>
-        <a href="" className="flex gap-2 py-3">
+        <a href="" className={noneActiveElement}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -56,7 +60,7 @@ export const NavigationCard = () => {
           </svg>
           Saved posts
         </a>
-        <a href="" className="flex gap-2 py-3">
+        <a href="" className={noneActiveElement}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -73,7 +77,7 @@ export const NavigationCard = () => {
           </svg>
           Notifications
         </a>
-        <a href="" className="flex gap-2 py-3">
+        <a href="" className={noneActiveElement}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -1,13 +1,9 @@
-import { ReactNode } from 'react'
+import { ChildrenType } from '@/types-interfaces/ChildrenType'
 
-interface Props {
-  children?: ReactNode
-}
-
-export default function Card({ children }: Props) {
-  return (
-    <div className="bg-white shadow-md shadow-gray-300 rounded-md p-4 mb-5">
-      {children}
-    </div>
-  )
+export default function Card({ children, noPadding }: ChildrenType) {
+  let classes = 'bg-white shadow-md shadow-gray-300 rounded-md mb-5'
+  if (!noPadding) {
+    classes += ' p-4'
+  }
+  return <div className={classes}>{children}</div>
 }

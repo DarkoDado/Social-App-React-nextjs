@@ -3,6 +3,7 @@ import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
 import Image from 'next/image'
 import ClickOutHandler from 'react-clickout-handler'
+import Link from 'next/link'
 
 export const PostCard = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -20,12 +21,18 @@ export const PostCard = () => {
     <Card>
       <div className="flex gap-3">
         <div>
-          <ProfilePhoto />
+          <Link className="cursor-pointer" href={'/profile'}>
+            <ProfilePhoto />
+          </Link>
         </div>
         <div className="grow">
           <p>
-            <a className="font-semibold">John Doe</a> shared a
-            <a className="text-socialBlue"> album</a>
+            <Link href={'/profile'}>
+              <span className="mr-2 font-semibold hover:underline cursor-pointer">
+                John Doe
+              </span>
+            </Link>
+            shared a<a className="text-socialBlue"> album</a>
           </p>
           <p className="text-gray-500 text-sm">2 hours ago</p>
         </div>
@@ -56,7 +63,10 @@ export const PostCard = () => {
             <div className="relative">
               {dropdownOpen && (
                 <div className="absolute w-52 -right-4 border-gray-100 bg-white shadow-md shadow-gray-300 p-3 rounded-sm">
-                  <a href="" className="flex py-2 px-2 gap-2">
+                  <a
+                    href=""
+                    className="flex gap-2 py-2 my-2 hover:bg-socialBlue hover:text-white -mx-4 px-4 rounded-md transition-all hover:scale-100 hover:shadow-md shadow-gray-300"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -73,7 +83,10 @@ export const PostCard = () => {
                     </svg>
                     Save post
                   </a>
-                  <a href="" className="flex py-2 px-2 gap-2">
+                  <a
+                    href=""
+                    className="flex gap-2 py-2 my-2 hover:bg-socialBlue hover:text-white -mx-4 px-4 rounded-md transition-all hover:scale-100 hover:shadow-md shadow-gray-300"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -90,7 +103,10 @@ export const PostCard = () => {
                     </svg>
                     Turn notifications
                   </a>
-                  <a href="" className="flex py-2 px-2 gap-2">
+                  <a
+                    href=""
+                    className="flex gap-2 py-2 my-2 hover:bg-socialBlue hover:text-white -mx-4 px-4 rounded-md transition-all hover:scale-100 hover:shadow-md shadow-gray-300"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -107,7 +123,10 @@ export const PostCard = () => {
                     </svg>
                     Hide post
                   </a>
-                  <a href="" className="flex py-2 px-2 gap-2">
+                  <a
+                    href=""
+                    className="flex gap-2 py-2 my-2 hover:bg-socialBlue hover:text-white -mx-4 px-4 rounded-md transition-all hover:scale-100 hover:shadow-md shadow-gray-300"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -124,7 +143,10 @@ export const PostCard = () => {
                     </svg>
                     Delete
                   </a>
-                  <a href="" className="flex py-2 px-2 gap-2">
+                  <a
+                    href=""
+                    className="flex gap-2 py-2 my-2 hover:bg-socialBlue hover:text-white -mx-4 px-4 rounded-md transition-all hover:scale-100 hover:shadow-md shadow-gray-300"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
