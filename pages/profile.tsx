@@ -1,11 +1,22 @@
 import Card from '@/components/Card'
+import FriendInfo from '@/components/FriendInfo'
 import { Layout } from '@/components/Layout'
 import { PostCard } from '@/components/PostCard'
 import { ProfilePhoto } from '@/components/ProfilePhoto'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function ProfilePage() {
+  const router = useRouter()
+  const { asPath: pathname } = router
+  const isPosts = pathname.includes('posts') || pathname === '/profile'
+  const isAbout = pathname.includes('about')
+  const isFriends = pathname.includes('friends')
+  const isPhotos = pathname.includes('photos')
+  const tabClasses = 'flex gap-1 px-3 py-1 items-center'
+  const activeTabClasses =
+    'flex gap-1 px-3 py-1 items-center bg-socialBlue text-white rounded-md shadow-md shadow-gray-300'
   return (
     <Layout>
       <Card noPadding={true}>
@@ -27,8 +38,8 @@ export default function ProfilePage() {
             </div>
             <div className="mt-7 flex gap-1">
               <Link
-                href={'/'}
-                className="flex gap-1 px-3 py-1 items-center bg-socialBlue text-white rounded-md shadow-md shadow-gray-300" // bg-blue-400 bg-opacity-20 rounded-t-md // border-socialBlue border-b-4 text-blue-600
+                href={'/profile/posts'}
+                className={isPosts ? activeTabClasses : tabClasses} // bg-blue-400 bg-opacity-20 rounded-t-md // border-socialBlue border-b-4 text-blue-600
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +57,10 @@ export default function ProfilePage() {
                 </svg>
                 Posts
               </Link>
-              <Link href={'/'} className="flex gap-1 px-3 py-1 items-center">
+              <Link
+                href={'/profile/about'}
+                className={isAbout ? activeTabClasses : tabClasses}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -63,7 +77,10 @@ export default function ProfilePage() {
                 </svg>
                 About
               </Link>
-              <Link href={'/'} className="flex gap-1 px-3 py-1 items-center">
+              <Link
+                href={'/profile/friends'}
+                className={isFriends ? activeTabClasses : tabClasses}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -80,7 +97,10 @@ export default function ProfilePage() {
                 </svg>
                 Friends
               </Link>
-              <Link href={'/'} className="flex gap-1 px-3 py-1 items-center">
+              <Link
+                href={'/profile/photos'}
+                className={isPhotos ? activeTabClasses : tabClasses}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -101,7 +121,44 @@ export default function ProfilePage() {
           </div>
         </div>
       </Card>
-      <PostCard />
+      {isPosts && <PostCard />}
+      {isAbout && (
+        <div>
+          <Card>
+            <h2 className="text-3xl mb-3">About me</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea harum
+              neque pariatur, facere deserunt quae?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit ad
+              quas quasi, est laboriosam dolor sapiente doloremque, id minima
+              quaerat consequatur esse.
+            </p>
+          </Card>
+        </div>
+      )}
+      {isFriends && (
+        <div>
+          <Card>
+            <h2 className="text-3xl mb-2">Friends</h2>
+            <div className="">
+              <div className="border-b border-b-gray-200 p-4 -mx-4">
+                <FriendInfo />
+              </div>
+              <div className="border-b border-b-gray-200 p-4 -mx-4">
+                <FriendInfo />
+              </div>
+              <div className="border-b border-b-gray-200 p-4 -mx-4">
+                <FriendInfo />
+              </div>
+              <div className="border-b border-b-gray-200 p-4 -mx-4">
+                <FriendInfo />
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
     </Layout>
   )
 }
