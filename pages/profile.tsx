@@ -159,6 +159,46 @@ export default function ProfilePage() {
           </Card>
         </div>
       )}
+      {isPhotos && (
+        <div>
+          <Card>
+            <div className="grid grid-cols-2 gap-4 ">
+              <div className="rounded-md overflow-hidden h-48 flex items-center shadow-md">
+                <Image
+                  src="https://plus.unsplash.com/premium_photo-1678116084010-1c4f3502c49d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                  alt=""
+                  width={500}
+                  height={100}
+                />
+              </div>
+              <div className="rounded-md overflow-hidden h-48 flex items-center shadow-md">
+                <Image
+                  src="https://plus.unsplash.com/premium_photo-1678116084010-1c4f3502c49d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                  alt=""
+                  width={500}
+                  height={100}
+                />
+              </div>
+              <div className="rounded-md overflow-hidden h-48 flex items-center shadow-md">
+                <Image
+                  src="https://plus.unsplash.com/premium_photo-1678116084010-1c4f3502c49d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                  alt=""
+                  width={500}
+                  height={100}
+                />
+              </div>
+              <div className="rounded-md overflow-hidden h-48 flex items-center shadow-md">
+                <Image
+                  src="https://plus.unsplash.com/premium_photo-1678116084010-1c4f3502c49d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                  alt=""
+                  width={500}
+                  height={100}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
     </Layout>
   )
 }

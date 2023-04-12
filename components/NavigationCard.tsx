@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export const NavigationCard = () => {
   const router = useRouter()
-  const { pathname } = router
+  const { asPath: pathname } = router
   const activeElementClasses =
     'flex gap-3 py-3 my-1 bg-socialBlue text-white -mx-10 px-10 rounded-md shadow-md shadow-gray-300'
   const noneActiveElementClasses =
@@ -36,7 +36,14 @@ export const NavigationCard = () => {
           </svg>
           Home
         </Link>
-        <Link href="" className={noneActiveElementClasses}>
+        <Link
+          href="/profile/friends"
+          className={
+            pathname === '/profile/friends'
+              ? activeElementClasses
+              : noneActiveElementClasses
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -53,7 +60,14 @@ export const NavigationCard = () => {
           </svg>
           Friends
         </Link>
-        <Link href="" className={noneActiveElementClasses}>
+        <Link
+          href="/saved"
+          className={
+            pathname === '/saved'
+              ? activeElementClasses
+              : noneActiveElementClasses
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -70,7 +84,14 @@ export const NavigationCard = () => {
           </svg>
           Saved posts
         </Link>
-        <Link href="" className={noneActiveElementClasses}>
+        <Link
+          href="/notifications"
+          className={
+            pathname === '/notifications'
+              ? activeElementClasses
+              : noneActiveElementClasses
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

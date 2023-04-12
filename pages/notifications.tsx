@@ -1,0 +1,69 @@
+import Card from '@/components/Card'
+import { Layout } from '@/components/Layout'
+import { ProfilePhoto } from '@/components/ProfilePhoto'
+import Link from 'next/link'
+
+export default function NotificationsPage() {
+  return (
+    <Layout>
+      <h1 className="text-5xl mb-4 text-gray-300">Notifications</h1>
+      <Card noPadding={true}>
+        <div className="">
+          <div className="flex gap-3 items-center border-b border-b-gray-200 p-4">
+            <Link href={'/profile'}>
+              <ProfilePhoto />
+            </Link>
+            <div>
+              <Link
+                href={'/profile'}
+                className="font-semibold mr-1 hover:underline"
+              >
+                John Doe
+              </Link>{' '}
+              liked
+              <Link href={'/'} className="text-socialBlue hover:underline ml-1">
+                your photo
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex gap-3 items-center border-b border-b-gray-200 p-4">
+            <Link href={'/profile'}>
+              <ProfilePhoto />
+            </Link>
+            <div>
+              <Link
+                href={'/profile'}
+                className="font-semibold mr-1 hover:underline"
+              >
+                John Doe
+              </Link>{' '}
+              liked
+              <Link href={'/'} className="text-socialBlue hover:underline ml-1">
+                your photo
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex gap-3 items-center border-b border-b-gray-200 p-4">
+            <Link href={'/profile'}>
+              <ProfilePhoto />
+            </Link>
+            <div>
+              <Link
+                href={'/profile'}
+                className="font-semibold mr-1 hover:underline"
+              >
+                John Doe
+              </Link>{' '}
+              liked
+              <Link href={'/'} className="text-socialBlue hover:underline ml-1">
+                your photo
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </Layout>
+  )
+}
