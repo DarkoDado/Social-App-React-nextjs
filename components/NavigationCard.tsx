@@ -6,12 +6,12 @@ export const NavigationCard = () => {
   const router = useRouter()
   const { asPath: pathname } = router
   const activeElementClasses =
-    'text-sm md:text-md flex md:gap-1 md:gap-3 py-3 my-1 bg-socialBlue text-white md:-mx-7 px-5 md:px-7 rounded-md shadow-md shadow-gray-300'
+    'text-sm md:text-lg flex md:gap-4 py-3 my-2 bg-socialBlue text-white md:-mx-8 px-5 md:px-10 rounded-md shadow-md shadow-gray-300'
   const noneActiveElementClasses =
-    'flex text-sm md:text-md gap-1 md:gap-3 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 md:-mx-4 px-5 md:px-4 rounded-md transition-all hover:scale-110 hover:shadow-md shadow-gray-300'
+    'flex text-sm md:text-md gap-1 md:gap-3 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 md:-mx-3 px-5 md:px-5 rounded-md transition-all hover:scale-110 hover:shadow-md shadow-gray-300'
   return (
     <Card noPadding={true}>
-      <div className="px-4 py-2 flex md:block justify-between shadow-md shadow-gray-400 md:shadow-none">
+      <div className="px-6 py-2 flex md:block justify-between shadow-md shadow-gray-400 md:shadow-none">
         <h2 className="text-gray-300 font-bold mb-3 hidden md:block">
           Navigation
         </h2>
