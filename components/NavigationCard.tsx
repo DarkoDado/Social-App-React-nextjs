@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import Card from './Card'
 import Link from 'next/link'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export const NavigationCard = () => {
   const router = useRouter()
@@ -9,6 +10,11 @@ export const NavigationCard = () => {
     'text-sm md:text-lg flex md:gap-4 py-3 my-2 bg-socialBlue text-white md:-mx-8 px-5 md:px-10 rounded-md shadow-md shadow-gray-300'
   const noneActiveElementClasses =
     'flex text-sm md:text-md gap-1 md:gap-3 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 md:-mx-3 px-5 md:px-5 rounded-md transition-all hover:scale-110 hover:shadow-md shadow-gray-300'
+
+  const supabase = useSupabaseClient()
+  async function logout() {
+    await supabase.auth.signOut()
+  }
   return (
     <Card noPadding={true}>
       <div className="px-6 py-2 flex md:block justify-between shadow-md shadow-gray-400 md:shadow-none">
@@ -110,23 +116,25 @@ export const NavigationCard = () => {
           </svg>
           <span className="hidden md:block">Notifications</span>
         </Link>
-        <Link href="" className={noneActiveElementClasses}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-            />
-          </svg>
-          <span className="hidden md:block">Logout</span>
-        </Link>
+        <button onClick={logout} className="w-full -my-2">
+          <span className={noneActiveElementClasses}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            <span className="hidden md:block">Logout</span>
+          </span>
+        </button>
       </div>
     </Card>
   )

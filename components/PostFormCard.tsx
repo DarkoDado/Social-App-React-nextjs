@@ -1,16 +1,40 @@
+import { useEffect, useState } from 'react'
 import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+
+interface Profile {
+  id: number
+  avatar: string
+  name: string
+  // add any other properties here
+}
 
 export const PostFormCard = () => {
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const supabase = useSupabaseClient()
+  const session = useSession()
+  useEffect(() => {
+    // alert(session?.user.id)
+    supabase
+      .from('profiles')
+      .select()
+      .eq('id', session?.user.id)
+      .then((result: any) => {
+        console.log(result)
+        if (result.data.length) {
+          setProfile(result.data[0])
+        }
+      })
+  }, [session?.user.id, supabase])
+
   return (
     <Card>
       <div className="flex gap-3">
-        <div>
-          <ProfilePhoto />
-        </div>
+        <div>{profile && <ProfilePhoto url={profile.avatar} />}</div>
         <textarea
           className="grow p-3 h-12"
-          placeholder={'Whats on your mind, Name ?'}
+          placeholder={`Whats on your mind, ${profile?.name} ?`}
         />
       </div>
       <div className="flex gap-5 items-center">
