@@ -1,11 +1,12 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import React, { useState } from 'react'
+import ClickOutHandler from 'react-clickout-handler'
 import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
-import Image from 'next/image'
-import ClickOutHandler from 'react-clickout-handler'
-import Link from 'next/link'
+import { Post } from './../types-interfaces/ChildrenType'
 
-export const PostCard = () => {
+export const PostCard = ({ content }: Post) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const openDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -170,10 +171,7 @@ export const PostCard = () => {
         </div>
       </div>
       <div>
-        <p className="my-3 text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione,
-          recusandae?
-        </p>
+        <p className="my-3 text-sm">{content}</p>
         <div className="overflow-hidden">
           {/* flex items-center justify-center */}
           <Image

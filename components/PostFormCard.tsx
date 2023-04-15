@@ -1,17 +1,25 @@
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 interface Profile {
   id: number
   avatar: string
   name: string
-  // add any other properties here
 }
+
+// interface PostgrestResponse<T> {
+//   data: T[]
+//   error: Error | null
+//   status: number
+//   statusText: string
+//   count: number | null
+// }
 
 export const PostFormCard = () => {
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [content, setContent] = useState('')
   const supabase = useSupabaseClient()
   const session = useSession()
   useEffect(() => {
@@ -28,13 +36,34 @@ export const PostFormCard = () => {
       })
   }, [session?.user.id, supabase])
 
+  function createPost() {
+    supabase
+      .from('posts')
+      .insert({
+        author: session?.user.id,
+        content,
+      })
+      .then((response) => {
+        if (!response.error) {
+          setContent('')
+          alert('created')
+        }
+      })
+  }
+
   return (
     <Card>
       <div className="flex gap-3">
         <div>{profile && <ProfilePhoto url={profile.avatar} />}</div>
         <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           className="grow p-3 h-12"
-          placeholder={`Whats on your mind, ${profile?.name} ?`}
+          placeholder={
+            profile
+              ? `Whats on your mind, ${profile.name} ?`
+              : 'Waiting for profile info...'
+          }
         />
       </div>
       <div className="flex gap-5 items-center">
@@ -101,7 +130,10 @@ export const PostFormCard = () => {
           </button>
         </div>
         <div className="grow text-right">
-          <button className="mt-3 bg-socialBlue text-white px-5 py-1 rounded-md">
+          <button
+            onClick={createPost}
+            className="mt-3 bg-socialBlue text-white px-5 py-1 rounded-md"
+          >
             Share
           </button>
         </div>
