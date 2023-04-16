@@ -1,13 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ClickOutHandler from 'react-clickout-handler'
 import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
 import { Post } from './../types-interfaces/ChildrenType'
+import ReactTimeAgo from 'react-time-ago'
+import { UserContext } from '@/context/UserContext'
 
-export const PostCard = ({ content }: Post) => {
+export const PostCard = ({
+  content,
+  created_at,
+  profiles: authorProfile,
+}: Post) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const { profile: myProfile } = useContext(UserContext)
   const openDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setDropdownOpen(true)
@@ -23,19 +30,21 @@ export const PostCard = ({ content }: Post) => {
       <div className="flex gap-3">
         <div>
           <Link className="cursor-pointer" href={'/profile'}>
-            <ProfilePhoto />
+            <ProfilePhoto url={authorProfile.avatar} />
           </Link>
         </div>
         <div className="grow">
           <p>
             <Link href={'/profile'}>
               <span className="mr-2 font-semibold hover:underline cursor-pointer">
-                John Doe
+                {authorProfile.name}
               </span>
             </Link>
-            shared a<a className="text-socialBlue"> album</a>
+            shared a<a className="text-socialBlue"> post</a>
           </p>
-          <p className="text-gray-500 text-sm">2 hours ago</p>
+          <p className="text-gray-500 text-sm">
+            {created_at && <ReactTimeAgo date={created_at} />}
+          </p>
         </div>
         <div className="relative">
           <button
@@ -238,7 +247,7 @@ export const PostCard = ({ content }: Post) => {
       </div>
       <div className="flex mt-4 gap-3">
         <div>
-          <ProfilePhoto />
+          <ProfilePhoto url={myProfile?.avatar} />
         </div>
         <div className="border grow  rounded-md relative">
           <textarea

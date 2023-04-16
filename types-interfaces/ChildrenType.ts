@@ -6,9 +6,15 @@ export interface ChildrenType {
   hideNavigation?: boolean
 }
 
+export interface Profiles {
+  avatar: string
+  id: string
+  name: string
+}
+
 export interface Post {
   id?: number
-  author?: string
-  createdAt?: Date
+  created_at: Date
   content?: string
+  profiles: Profiles
 }

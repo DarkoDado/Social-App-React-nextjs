@@ -1,13 +1,14 @@
+import { UserContext } from '@/context/UserContext'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import Card from './Card'
 import { ProfilePhoto } from './ProfilePhoto'
 
-interface Profile {
-  id: number
-  avatar: string
-  name: string
-}
+// interface Profile {
+//   id: number
+//   avatar: string
+//   name: string
+// }
 
 // interface PostgrestResponse<T> {
 //   data: T[]
@@ -15,26 +16,31 @@ interface Profile {
 //   status: number
 //   statusText: string
 //   count: number | null
-// }
+// }ate
 
-export const PostFormCard = () => {
-  const [profile, setProfile] = useState<Profile | null>(null)
+interface onPost {
+  onPost(): void
+}
+
+export const PostFormCard = ({ onPost }: onPost) => {
+  // const [profile, setProfile] = useState<Profile | null>(null)
   const [content, setContent] = useState('')
   const supabase = useSupabaseClient()
   const session = useSession()
-  useEffect(() => {
-    // alert(session?.user.id)
-    supabase
-      .from('profiles')
-      .select()
-      .eq('id', session?.user.id)
-      .then((result: any) => {
-        console.log(result)
-        if (result.data.length) {
-          setProfile(result.data[0])
-        }
-      })
-  }, [session?.user.id, supabase])
+  const { profile } = useContext(UserContext)
+  // useEffect(() => {
+  //   // alert(session?.user.id)
+  //   supabase
+  //     .from('profiles')
+  //     .select()
+  //     .eq('id', session?.user.id)
+  //     .then((result: any) => {
+  //       console.log(result)
+  //       if (result.data.length) {
+  //         setProfile(result.data[0])
+  //       }
+  //     })
+  // }, [session?.user.id, supabase])
 
   function createPost() {
     supabase
@@ -46,7 +52,9 @@ export const PostFormCard = () => {
       .then((response) => {
         if (!response.error) {
           setContent('')
-          alert('created')
+          if (onPost) {
+            onPost()
+          }
         }
       })
   }
