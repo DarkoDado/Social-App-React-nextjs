@@ -13,22 +13,6 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([])
   const [profile, setProfile] = useState<Profiles | null>(null)
 
-  useEffect(() => {
-    if (!session?.user.id) {
-      return
-    }
-    supabase
-      .from('profiles')
-      .select()
-      .eq('id', session?.user.id)
-      .then((result: any) => {
-        console.log(result)
-        if (result.data.length) {
-          setProfile(result.data[0])
-        }
-      })
-  }, [session?.user.id, supabase])
-
   const fetchPosts = useCallback(() => {
     supabase
       .from('posts')
@@ -43,6 +27,22 @@ export default function Home() {
   useEffect(() => {
     fetchPosts()
   }, [fetchPosts])
+
+  useEffect(() => {
+    if (!session?.user.id) {
+      return
+    }
+    supabase
+      .from('profiles')
+      .select()
+      .eq('id', session?.user.id)
+      .then((result: any) => {
+        console.log(result)
+        if (result.data.length) {
+          setProfile(result.data[0])
+        }
+      })
+  }, [session?.user.id, supabase, fetchPosts])
 
   if (!session) {
     return <LoginPage />

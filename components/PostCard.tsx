@@ -8,11 +8,7 @@ import { Post } from './../types-interfaces/ChildrenType'
 import ReactTimeAgo from 'react-time-ago'
 import { UserContext } from '@/context/UserContext'
 
-export const PostCard = ({
-  content,
-  created_at,
-  profiles: authorProfile,
-}: Post) => {
+export const PostCard = ({ content, created_at, profiles }: Post) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { profile: myProfile } = useContext(UserContext)
   const openDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,14 +26,14 @@ export const PostCard = ({
       <div className="flex gap-3">
         <div>
           <Link className="cursor-pointer" href={'/profile'}>
-            <ProfilePhoto url={authorProfile.avatar} />
+            <ProfilePhoto url={profiles?.avatar} />
           </Link>
         </div>
         <div className="grow">
           <p>
             <Link href={'/profile'}>
               <span className="mr-2 font-semibold hover:underline cursor-pointer">
-                {authorProfile.name}
+                {profiles?.name}
               </span>
             </Link>
             shared a<a className="text-socialBlue"> post</a>
