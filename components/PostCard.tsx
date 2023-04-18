@@ -8,7 +8,12 @@ import { Post } from './../types-interfaces/ChildrenType'
 import ReactTimeAgo from 'react-time-ago'
 import { UserContext } from '@/context/UserContext'
 
-export const PostCard = ({ content, created_at, profiles }: Post) => {
+export const PostCard = ({
+  content,
+  created_at,
+  photos,
+  profiles: authorProfile,
+}: Post) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { profile: myProfile } = useContext(UserContext)
   const openDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,14 +31,14 @@ export const PostCard = ({ content, created_at, profiles }: Post) => {
       <div className="flex gap-3">
         <div>
           <Link className="cursor-pointer" href={'/profile'}>
-            <ProfilePhoto url={profiles?.avatar} />
+            <ProfilePhoto url={authorProfile?.avatar} />
           </Link>
         </div>
         <div className="grow">
           <p>
-            <Link href={'/profile'}>
+            <Link href={'/profile/' + authorProfile?.id}>
               <span className="mr-2 font-semibold hover:underline cursor-pointer">
-                {profiles?.name}
+                {authorProfile?.name}
               </span>
             </Link>
             shared a<a className="text-socialBlue"> post</a>
@@ -179,13 +184,28 @@ export const PostCard = ({ content, created_at, profiles }: Post) => {
         <p className="my-3 text-sm">{content}</p>
         <div className="overflow-hidden">
           {/* flex items-center justify-center */}
-          <Image
+          {photos && (
+            <div className="flex gap-4">
+              {photos.map((photo) => (
+                <div key={photo}>
+                  <Image
+                    src={photo}
+                    width={300}
+                    height={300}
+                    alt="img"
+                    className="rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {/* <Image
             src="https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=706&q=80"
             alt=""
             width={300}
             height={350}
             className="rounded-md"
-          />
+          /> */}
         </div>
       </div>
       <div className="mt-5 flex gap-8">

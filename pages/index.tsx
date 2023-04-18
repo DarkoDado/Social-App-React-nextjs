@@ -1,11 +1,11 @@
 import { Layout } from '@/components/Layout'
 import { PostCard } from '@/components/PostCard'
 import { PostFormCard } from '@/components/PostFormCard'
+import { UserContext } from '@/context/UserContext'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useCallback, useEffect, useState } from 'react'
-import LoginPage from './login'
 import { Post, Profiles } from './../types-interfaces/ChildrenType'
-import { UserContext } from '@/context/UserContext'
+import LoginPage from './login'
 
 export default function Home() {
   const supabase = useSupabaseClient()
@@ -16,7 +16,7 @@ export default function Home() {
   const fetchPosts = useCallback(() => {
     supabase
       .from('posts')
-      .select('id, content, created_at, profiles(id, avatar, name)')
+      .select('id, content, created_at, photos, profiles(id, avatar, name)')
       .order('created_at', { ascending: false })
       .then((result: any) => {
         console.log('posts', result)
@@ -42,7 +42,7 @@ export default function Home() {
           setProfile(result.data[0])
         }
       })
-  }, [session?.user.id, supabase, fetchPosts])
+  }, [session?.user.id, supabase])
 
   if (!session) {
     return <LoginPage />

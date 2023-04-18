@@ -1,15 +1,41 @@
 import Card from '@/components/Card'
+import { Cover } from '@/components/Cover'
 import FriendInfo from '@/components/FriendInfo'
 import { Layout } from '@/components/Layout'
 import { PostCard } from '@/components/PostCard'
 import { ProfilePhoto } from '@/components/ProfilePhoto'
+import { Profiles } from '@/types-interfaces/ChildrenType'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 export default function ProfilePage() {
+  const [profile, setProfile] = useState<Profiles | null>(null)
   const router = useRouter()
+  const userId = router.query.id
   const { asPath: pathname } = router
+  const supabase = useSupabaseClient()
+
+  useEffect(() => {
+    if (!userId) {
+      return
+    }
+    supabase
+      .from('profiles')
+      .select()
+      .eq('id', userId)
+      .then((result: any) => {
+        if (result.error) {
+          throw result.error
+        }
+        if (result.data) {
+          setProfile(result.data[0])
+        }
+      })
+  }, [supabase, userId])
+
   const isPosts = pathname.includes('posts') || pathname === '/profile'
   const isAbout = pathname.includes('about')
   const isFriends = pathname.includes('friends')
@@ -21,20 +47,14 @@ export default function ProfilePage() {
     <Layout>
       <Card noPadding={true}>
         <div className="relative overflow-hidden rounded-md">
-          <div className="relative min-h-[135px] overflow-hidden flex justify-center items-center">
-            <Image
-              alt="cover"
-              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80"
-              fill={true}
-            />
-          </div>
+          <Cover url={profile ? profile.cover : ''} />
           <div className="absolute top-20 left-4">
-            <ProfilePhoto size={'big'} />
+            {profile && <ProfilePhoto size={'big'} url={profile.avatar} />}
           </div>
           <div className="p-4 pt-1 md:pt-4">
             <div className="ml-28 md:ml-40">
-              <h1 className="text-3xl font-bold">John Doe</h1>
-              <div className="text-gray-500 loading-4">Stockholm, Sweden</div>
+              <h1 className="text-3xl font-bold">{profile?.name}</h1>
+              <div className="text-gray-500 loading-4">{profile?.place}</div>
             </div>
             <div className="mt-4 md:mt-7 flex gap-1">
               <Link

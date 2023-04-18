@@ -28,7 +28,7 @@ export const PostFormCard = ({ onPost }: onPost) => {
   // const [profile, setProfile] = useState<Profile | null>(null)
   const [content, setContent] = useState<string>('')
   const [uploads, setUploads] = useState<string[]>([])
-  const [isUploading, setIsUploading] = useState<boolean>(true)
+  const [isUploading, setIsUploading] = useState<boolean>(false)
   const supabase = useSupabaseClient()
   const session = useSession()
   const { profile } = useContext(UserContext)
@@ -52,10 +52,12 @@ export const PostFormCard = ({ onPost }: onPost) => {
       .insert({
         author: session?.user.id,
         content,
+        photos: uploads,
       })
       .then((response) => {
         if (!response.error) {
           setContent('')
+          setUploads([])
           if (onPost) {
             onPost()
           }
@@ -63,23 +65,25 @@ export const PostFormCard = ({ onPost }: onPost) => {
       })
   }
 
-  const addPhoto = (e: any) => {
+  async function addPhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files
-    for (const file of files) {
-      const newName = Date.now() + file.name
-      supabase.storage
-        .from('photos')
-        .upload(newName, file)
-        .then((result) => {
-          console.log(result)
-          if (result.data) {
-            const url =
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              '/storage/v1/object/public/photos/' +
-              result.data.path
-            setUploads((prevUploads) => [...prevUploads, url])
-          }
-        })
+    if (files && files.length > 0) {
+      setIsUploading(true)
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        const newName = Date.now() + file.name
+        const result = await supabase.storage
+          .from('photos')
+          .upload(newName, file)
+        if (result && result.data) {
+          const url =
+            process.env.NEXT_PUBLIC_SUPABASE_URL +
+            '/storage/v1/object/public/photos/' +
+            result.data.path
+          setUploads((prevUploads) => [...prevUploads, url])
+        }
+      }
+      setIsUploading(false)
     }
   }
 
@@ -216,7 +220,7 @@ export const PostFormCard = ({ onPost }: onPost) => {
           <div className="grow text-right">
             <button
               onClick={createPost}
-              className="mt-3 bg-socialBlue text-white px-5 py-1 rounded-md"
+              className="mt-3 bg-socialBlue transition-all hover:bg-blue-600 text-white px-5 py-1 rounded-md"
             >
               Share
             </button>
