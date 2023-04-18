@@ -5,23 +5,21 @@ import { Layout } from '@/components/Layout'
 import { PostCard } from '@/components/PostCard'
 import { ProfilePhoto } from '@/components/ProfilePhoto'
 import { Profiles } from '@/types-interfaces/ChildrenType'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profiles | null>(null)
   const router = useRouter()
   const userId = router.query.id
+  const session = useSession()
   const { asPath: pathname } = router
   const supabase = useSupabaseClient()
 
-  useEffect(() => {
-    if (!userId) {
-      return
-    }
+  const fetchUser = useCallback(() => {
     supabase
       .from('profiles')
       .select()
@@ -36,6 +34,13 @@ export default function ProfilePage() {
       })
   }, [supabase, userId])
 
+  useEffect(() => {
+    if (!userId) {
+      return
+    }
+    fetchUser()
+  }, [fetchUser, userId])
+
   const isPosts = pathname.includes('posts') || pathname === '/profile'
   const isAbout = pathname.includes('about')
   const isFriends = pathname.includes('friends')
@@ -43,12 +48,19 @@ export default function ProfilePage() {
   const tabClasses = 'flex gap-1 px-3 py-1 items-center'
   const activeTabClasses =
     'flex gap-1 px-3 py-1 items-center bg-socialBlue text-white rounded-md shadow-md shadow-gray-300'
+
+  const isMyUser = userId === session?.user?.id
+
   return (
     <Layout>
       <Card noPadding={true}>
         <div className="relative overflow-hidden rounded-md">
-          <Cover url={profile ? profile.cover : ''} />
-          <div className="absolute top-20 left-4">
+          <Cover
+            url={profile ? profile.cover : ''}
+            editable={isMyUser}
+            onChange={fetchUser}
+          />
+          <div className="absolute top-20 left-4 z-15">
             {profile && <ProfilePhoto size={'big'} url={profile.avatar} />}
           </div>
           <div className="p-4 pt-1 md:pt-4">
