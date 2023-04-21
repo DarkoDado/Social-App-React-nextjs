@@ -6,18 +6,32 @@ export interface ChildrenType {
   hideNavigation?: boolean
 }
 
+// export interface Profiles {
+//   avatar: string
+//   id: string
+//   name: string
+// } | null
+
 export interface Profiles {
+  id: number
   avatar: string
-  id: string
   name: string
-  place: string
   cover: string
+  place: string
 }
 
 export interface Post {
   id?: number
-  created_at?: Date
   content?: string
-  profiles?: Profiles
+  created_at?: Date
   photos?: string[]
+  profiles?: Profiles
+}
+
+export interface Post1 {
+  id: number
+  content: string
+  created_at: Date
+  photos: string[]
+  profiles: Profiles[]
 }

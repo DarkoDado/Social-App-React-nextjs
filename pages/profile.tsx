@@ -61,7 +61,14 @@ export default function ProfilePage() {
             onChange={fetchUser}
           />
           <div className="absolute top-20 left-4 z-15">
-            {profile && <ProfilePhoto size={'big'} url={profile.avatar} />}
+            {profile && (
+              <ProfilePhoto
+                size={'big'}
+                url={profile.avatar}
+                editable={isMyUser}
+                onChange={fetchUser}
+              />
+            )}
           </div>
           <div className="p-4 pt-1 md:pt-4">
             <div className="ml-28 md:ml-40">

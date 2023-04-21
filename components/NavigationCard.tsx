@@ -14,6 +14,7 @@ export const NavigationCard = () => {
   const supabase = useSupabaseClient()
   async function logout() {
     await supabase.auth.signOut()
+    router.push('/login')
   }
   return (
     <Card noPadding={true}>
