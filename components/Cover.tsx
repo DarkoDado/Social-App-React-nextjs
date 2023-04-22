@@ -36,7 +36,7 @@ export const Cover = ({ url, editable, onChange }: Props) => {
       )}
       {editable && (
         <div className="absolute right-0 bottom-0">
-          <label className="cursor-pointer flex gap-2 bg-white py-1 px-4  shadow-md shadow-black hover:bg-blue-600 hover:text-white transition-all">
+          <label className="cursor-pointer flex gap-2 bg-white py-1 px-4  shadow-md shadow-black hover:bg-socialBlue hover:text-white transition-all">
             <input type="file" onChange={updateCover} className="hidden" />
             <svg
               xmlns="http://www.w3.org/2000/svg"

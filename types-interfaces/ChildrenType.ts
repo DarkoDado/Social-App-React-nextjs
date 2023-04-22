@@ -13,11 +13,11 @@ export interface ChildrenType {
 // } | null
 
 export interface Profiles {
-  id: number
-  avatar: string
-  name: string
-  cover: string
-  place: string
+  id?: number
+  name: string | undefined
+  place?: string
+  avatar?: string
+  cover?: string | null
 }
 
 export interface Post {

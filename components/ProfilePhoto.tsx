@@ -61,7 +61,7 @@ export const ProfilePhoto = ({
             </div>
           )}
           {editable && (
-            <label className="absolute bottom-0 right-0 shadow-md shadow-gray-500 p-2 cursor-pointer bg-white rounded-full">
+            <label className="absolute bottom-0 right-0 shadow-md shadow-gray-500 p-2 cursor-pointer bg-white rounded-full hover:bg-socialBlue hover:text-white transition-all">
               <input
                 type="file"
                 className="hidden"
