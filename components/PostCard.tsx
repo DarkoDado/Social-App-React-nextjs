@@ -16,8 +16,10 @@ export const PostCard = ({
   photos,
   profiles: authorProfile,
 }: Post) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [likes, setLikes] = useState<Post[]>([])
+  const [comments, setComments] = useState<Post[]>([])
+  const [commentText, setCommentText] = useState('')
   const { profile: myProfile } = useContext(UserContext)
   const supabase = useSupabaseClient()
 
@@ -29,9 +31,19 @@ export const PostCard = ({
       .then((result: any) => setLikes(result.data))
     return null
   }, [id, supabase])
+
+  const fetchComments = useCallback(() => {
+    supabase
+      .from('posts')
+      .select('*, profiles(*)')
+      .eq('parent', id)
+      .then((result: any) => setComments(result.data))
+  }, [id, supabase])
+
   useEffect(() => {
     fetchLikes()
-  }, [fetchLikes])
+    fetchComments()
+  }, [fetchComments, fetchLikes])
 
   const openDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -66,6 +78,21 @@ export const PostCard = ({
       })
       .then(() => {
         fetchLikes()
+      })
+  }
+
+  function postComment(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    supabase
+      .from('posts')
+      .insert({
+        content: commentText,
+        author: myProfile?.id,
+        parent: id,
+      })
+      .then(() => {
+        fetchComments()
+        setCommentText('')
       })
   }
 
@@ -311,10 +338,15 @@ export const PostCard = ({
           <ProfilePhoto url={myProfile?.avatar} />
         </div>
         <div className="border grow  rounded-md relative">
-          <textarea
-            className="block w-full p-2 px-4 h-12"
-            placeholder="Leave a comment..."
-          />
+          <form onSubmit={postComment}>
+            <input
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              className="block w-full p-2 px-4 h-12"
+              placeholder="Leave a comment..."
+            />
+          </form>
+
           <button className="absolute top-3 right-3 text-gray-400 hover:text-blue-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -333,6 +365,24 @@ export const PostCard = ({
           </button>
         </div>
       </div>
+      {comments.length > 0 &&
+        comments.map((comment) => (
+          <div key={comment.id} className="mt-2 flex gap-2 items-center">
+            <ProfilePhoto url={comment.profiles?.avatar} />
+            <div className="bg-gray-200 py-2 px-4 rounded-2xl">
+              <div>
+                <Link href={'/profile/' + comment.profiles?.id}>
+                  <span className="hover:underline font-semibold">
+                    {comment.profiles?.name}
+                  </span>
+                </Link>
+                <ReactTimeAgo date={new Date(comment.created_at).getTime()} />
+              </div>
+              <br />
+              <p className="text-sm">{comment.content}</p>
+            </div>
+          </div>
+        ))}
     </Card>
   )
 }
