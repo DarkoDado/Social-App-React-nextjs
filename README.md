@@ -1,6 +1,13 @@
 // Live demo:
 https://social-app-five.vercel.app/
 
+only Google login works for now on the live project
+<hr>
+The app may have some small bugs, and it is also necessary to add login functionality for Twitter and GitHub, as well as a few other features, such as deleting a post, etc.
+
+-app has the ability to add pictures, posts, change cover picture, change profile picture, change personal data, writing a comment, saving posts, liking a post and other things/fetatures...
+<hr>
+
 Save post/ Remove from saved functionality
 ![socialApp1](https://user-images.githubusercontent.com/99611960/234931608-d6805bbd-a715-4066-86b2-e8efa6118670.png)
 Personal profile
@@ -13,5 +20,6 @@ Uploading photos at post textarea
 ![socialApp6](https://user-images.githubusercontent.com/99611960/234932467-c0dc3bb6-89c7-4020-b266-fef1e4c30123.png)
 
 Mobile
+
 ![socialApp9](https://user-images.githubusercontent.com/99611960/234932631-e2571256-eed2-4b51-9633-94ab98a6cacb.png)
 ![socialApp8](https://user-images.githubusercontent.com/99611960/234932651-e5da376c-eea3-409d-9d07-01a7b05ed108.png)
